@@ -1,0 +1,10 @@
+name: community_example
+description: Local sample for the community UI toolkit.
+publish_to: none
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  core_x_community:
+    path: ..
