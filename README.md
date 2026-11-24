@@ -1,41 +1,71 @@
 # CORE X Community
 
-A standalone Flutter UI toolkit containing general-purpose components adapted from the CORE X project. This repository is **not** the commercial CORE X SaaS application. It does not contain a backend, production UI, authentication, customer information, analytics, or payment integrations. No accounts or services are required.
+A small MIT-licensed Flutter desktop UI toolkit with reusable, local-only components. This is not the commercial CORE X application: no backend, customer data, payment integrations, authentication, or proprietary commercial UI is included.
 
-## Features
+**Status:** 0.2.0 release candidate. CI results, pub.dev publication and external adoption are not claimed until verified.
 
-- `GlideScrollController`: accumulated animated pointer scrolling; native scroll behavior when disabled or reduced motion is requested.
-- `AdaptiveDensity`: selects a compact layout based on local width and height constraints.
-- `DesignStage`: fits a local, fixed-size illustration inside a bounded parent. Do not wrap your entire app in this widget.
+## Components
 
-## Getting started
+| API | Use |
+| --- | --- |
+| `GlideScrollController` | Smooth pointer scrolling with native fallback for reduced motion |
+| `AdaptiveDensity` | Compact layout based on local constraints |
+| `DesignStage` | Fit a fixed-size illustration into a bounded parent |
+| `ResponsiveTileGrid` | Width-aware wrapping tiles |
+| `DesktopKeyboardScope` | Local keyboard callbacks without global key capture |
+| `MotionSwap` | Cross-fade with reduced-motion support |
+| `ToolkitTable<T>` | Controlled sorting and lazy row rendering for bounded local datasets |
+| `stableSortedRows` | Stable sorted copy without mutating input |
 
-Install the Flutter SDK (3.19 or later). Clone this repository, then run `flutter pub get`, `flutter analyze`, and `flutter test` in its root. The package is intentionally not published to pub.dev. Use a local path or Git dependency in another Flutter project.
+## Install from Git
+
+```yaml
+dependencies:
+  core_x_community:
+    git:
+      url: https://github.com/ehabhanyharp-source/CORE-X-Community.git
+```
+
+Use a reviewed commit SHA for reproducible deployments. Package publication on pub.dev is not yet confirmed.
 
 ```dart
 import 'package:core_x_community/core_x_community.dart';
 
 final controller = GlideScrollController();
-// Pass controller to a ListView, and dispose it with its owner.
+// Use in a ListView and dispose it with its owner.
 ```
+
+For a sortable table, put `ToolkitTable` in an `Expanded` or a fixed-height box. Keep `sortColumn` and `ascending` in host state and update them from `onSort`. Supply text cells or any local widget. See `example/lib/main.dart` for a working example source. Sorting runs synchronously; paginate large datasets in the host.
 
 ## Example
 
-The example is a local UI demonstration with generated sample items. To generate platform scaffolding and run it (Windows host and Windows Flutter tooling required for the Windows target):
+From a Flutter-enabled machine:
 
 ```sh
 cd example
 flutter create --platforms=windows,web --project-name community_example .
 flutter pub get
-flutter run -d windows
+flutter run -d chrome
 ```
 
-Alternatively use `flutter run -d chrome` with Flutter web support. No remote services are used.
+Use `flutter run -d windows` on a Windows host with Windows tooling. The demo contains synthetic sample rows only. Resize the window, click table headers, use Ctrl+K to switch views, and toggle the theme. Actual screenshots should be captured after running the example; no synthetic screenshot is represented as a running app.
 
-## Development status
+## Verify
 
-Initial community release. Tests are provided; execution requires the Flutter SDK. Do not claim passing CI or adoption until verified. There is no claim of external users or commercial feature parity.
+```sh
+flutter pub get
+(cd example && flutter pub get)
+flutter analyze --no-fatal-infos
+flutter test
+flutter pub publish --dry-run
+```
+
+CI checks minimum Flutter 3.19.6 and current stable. Warnings and errors remain fatal; informational findings are still logged. Flutter tests must pass before cutting a release. No accounts or network services are required by the library at runtime.
+
+## Contribute
+
+See [CONTRIBUTING.md](CONTRIBUTING.md), [ROADMAP.md](ROADMAP.md), and [SECURITY.md](SECURITY.md). Please report reproducible bugs and actual use cases, not artificial engagement.
 
 ## License
 
-MIT. The license applies only to the contents of this repository, not to the separate commercial CORE X application or its assets. The repository owner must confirm rights to all included code before publishing.
+MIT applies to this repository only, not to the separate CORE X commercial application or its assets. The maintainer must hold rights to all included code before publishing.

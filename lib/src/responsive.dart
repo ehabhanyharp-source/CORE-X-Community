@@ -17,8 +17,7 @@ class AdaptiveDensity extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final compact =
-            constraints.maxHeight < compactBelowHeight ||
+        final compact = constraints.maxHeight < compactBelowHeight ||
             constraints.maxWidth < compactBelowWidth;
         return builder(context, compact);
       },

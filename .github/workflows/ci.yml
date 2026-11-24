@@ -8,14 +8,27 @@ permissions:
 jobs:
   analyze-and-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        flutter: ['3.19.6', 'stable']
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
+        if: matrix.flutter == 'stable'
         with:
           channel: stable
+      - uses: subosito/flutter-action@v2
+        if: matrix.flutter != 'stable'
+        with:
+          channel: stable
+          flutter-version: ${{ matrix.flutter }}
+      - run: flutter --version
       - run: flutter pub get
       - run: flutter pub get
         working-directory: example
-      - run: flutter analyze
+      # Keep warnings/errors fatal; informational SDK deprecations are visible.
+      - run: flutter analyze --no-fatal-infos
       - run: flutter test
+        if: ${{ !cancelled() }}
