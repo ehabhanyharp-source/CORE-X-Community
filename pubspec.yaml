@@ -1,0 +1,13 @@
+name: core_x_community
+description: Reusable Flutter desktop scrolling and responsive layout utilities from CORE X.
+version: 0.1.0
+publish_to: none
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.19.0'
+dependencies:
+  flutter:
+    sdk: flutter
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
